@@ -18,12 +18,11 @@ if (endpoint === undefined) {
 
 module.exports = {
   networks: {
-    development: {
+    besu: {
      provider: () => new HDWalletProvider(privateKey, endpoint),
-     host: "127.0.0.1",
-     port: 8545,
      network_id: "*",
-     from: address
+     from: address,
+     gasPrice: 0
     },
     ganache: {
       host: '127.0.0.1',
@@ -44,15 +43,5 @@ module.exports = {
        },
       }
     }
-  },
-
-  mocha: {
-    useColors: true,
-    reporter: 'mocha-multi-reporters',
-    reporterOptions: {
-      configFile: './mocha-reporter-config.json',
-    },
-  },
-
-  plugins: ['solidity-coverage']
+  }
 };
