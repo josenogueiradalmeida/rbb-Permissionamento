@@ -1,4 +1,4 @@
-name: Compile and Release
+name: Compile and Attaches ABIs on release
 
 on:
   release:
