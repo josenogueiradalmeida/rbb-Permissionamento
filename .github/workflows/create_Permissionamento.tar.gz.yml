@@ -1,0 +1,30 @@
+name: Create Permissionamento.tar.gz and Permissionamento.zip
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  compile: 
+    runs-on: ubuntu-latest
+
+    steps:      
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Create Linux Tarball
+        run: tar -zcvf Permissionamento.tar.gz .
+
+      - name: Create Windows Zip
+        run: zip -r Permissionamento.zip *
+     
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            Permissionamento.tar.gz
+            Permissionamento.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
