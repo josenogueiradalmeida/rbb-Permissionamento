@@ -17,7 +17,7 @@ Como o besu define a versão e mais informações:
 Mais informações aqui: https://github.com/RBBNet/rbb/blob/master/Versionamento.md
 
 ## _Branches_
-
+Essa sessão será mantida por motivos históricos, apesar de ter sido adotado o versionamento semântico (SemVer) e uma limpeza de branches ter sido feita.
 _Nota: A versão 1 "pura" dos smart contracts de permissionamento da Consensys (sem as modificações da lacchain) não foi encontrada._
 
 - beta1: contém a implementação do _frontend_ e _backend_ da versão 1 dos _smart contracts_ de permissionamento com modificações feitas pela Lacchain. Essas modificações adicionam informações sobre os nós no contrato, como: o tipo de nó (boot, validator, writer, observer...), geoHash, nome para o nó e o nome da instituição. Essa _branch_ contém a cópia exata do [repositório da lacchain na branch beta1](https://github.com/lacchain/permissioning-smart-contracts/tree/beta1) criada especificamente para a RBB. Os testes automatizados e os _scripts_ de migração **não** acompanharam as mudanças feitas pela lacchain.
