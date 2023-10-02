@@ -13,6 +13,9 @@ Ver mais especificações: <https://entethalliance.org/technical-specifications/
 Como o besu define a versão e mais informações:
 <https://besu.hyperledger.org/en/stable/HowTo/Limit-Access/Specify-Perm-Version/>
 
+## _Versionamento_
+Mais informações aqui: https://github.com/RBBNet/rbb/blob/master/Versionamento.md
+
 ## _Branches_
 
 _Nota: A versão 1 "pura" dos smart contracts de permissionamento da Consensys (sem as modificações da lacchain) não foi encontrada._
