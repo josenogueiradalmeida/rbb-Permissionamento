@@ -15,6 +15,7 @@ Como o besu define a versão e mais informações:
 
 ## _Versionamento_
 Mais informações aqui: https://github.com/RBBNet/rbb/blob/master/Versionamento.md
+No repositório do Permissionamento, estamos considerando a API pública como sendo as ABIs dos contratos. 
 * A build no Permissionamento é nomeada a partir da data de lançamento da release. Exemplo: _v1.0.1+2023-09-28_.
 * Releases são criadas sempre que uma funcionalidade nova é adicionada e a API (no caso, as ABIs) se encontra estável.
 * Branches são criadas sempre que está se adicionando uma funcionalidade nova, porém, é necessário lembrar que elas possuem caráter _temporário_. Ou seja, assim que possível, gerar uma tag/release com a funcionalidade.
