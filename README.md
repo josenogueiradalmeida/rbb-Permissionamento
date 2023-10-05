@@ -22,6 +22,8 @@ No repositório do Permissionamento, estamos considerando a API pública como se
 * Releases são criadas sempre que uma funcionalidade nova é adicionada e a API (no caso, as ABIs) se encontra estável.
 * Branches são criadas sempre que está se adicionando uma funcionalidade nova, porém, é necessário lembrar que elas possuem caráter _temporário_. Ou seja, assim que possível, gerar uma tag/release com a funcionalidade.
 
+⚠️ **IMPORTANTE**: ler sessão [_Dinâmica_](https://github.com/RBBNet/rbb/blob/master/Versionamento.md#din%C3%A2mica), que dita o comportamento para a implementação de novas funcionalidades.
+
 ## _Branches_
 Essa sessão será mantida por motivos históricos, apesar de ter sido adotado o versionamento semântico (SemVer) e uma limpeza de branches ter sido feita.
 _Nota: A versão 1 "pura" dos smart contracts de permissionamento da Consensys (sem as modificações da lacchain) não foi encontrada._
