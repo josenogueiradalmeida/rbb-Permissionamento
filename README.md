@@ -17,15 +17,16 @@ Como o besu define a versão e mais informações:
 Mais informações aqui: https://github.com/RBBNet/rbb/blob/master/Versionamento.md
 
 No repositório do Permissionamento, estamos considerando a API pública como sendo as ABIs dos contratos. 
- _A versão do Permissionamento 1.0.0 é a usada na rede de Laboratório, com a release **v1.0.0+lab01-backend**._ _Pelo entendimento, a release da branch **migrations** ficou como 1.0.1, um patch de correção, apesar de adicionar outras funcionalidades. Em tese, ela seria a 1.1.0._ 
-* A build no Permissionamento é nomeada a partir da data de lançamento da release. Exemplo: _v1.0.1+2023-09-28_.
+ _A versão do Permissionamento 1.0.0 é a usada na rede de Laboratório, com a release **v1.0.0+lab01-backend**._ _A release da branch **migrations** ficou como 1.0.1, um patch de correção, apesar de adicionar outras funcionalidades. De acordo com o SemVer, ela seria a 1.1.0._ 
+* A build no Permissionamento é nomeada a partir da data de lançamento da release. Exemplo: _v1.0.1+2023-09-28_. Observação: builds anteriores não seguem essa dinâmica.
 * Releases são criadas sempre que uma funcionalidade nova é adicionada e a API (no caso, as ABIs) se encontra estável.
 * Branches são criadas sempre que está se adicionando uma funcionalidade nova, porém, é necessário lembrar que elas possuem caráter _temporário_. Ou seja, assim que possível, gerar uma tag/release com a funcionalidade.
+
 
 ⚠️ **IMPORTANTE**: ler sessão [_Dinâmica_](https://github.com/RBBNet/rbb/blob/master/Versionamento.md#din%C3%A2mica), que dita o comportamento para a implementação de novas funcionalidades.
 
 ## _Branches_
-Essa sessão será mantida por motivos históricos, apesar de ter sido adotado o versionamento semântico (SemVer) e uma limpeza de branches ter sido feita.
+Essa sessão será mantida por motivos históricos, apesar de ter sido adotado o versionamento semântico (SemVer) e uma limpeza de branches ter sido feita. 
 _Nota: A versão 1 "pura" dos smart contracts de permissionamento da Consensys (sem as modificações da lacchain) não foi encontrada._
 
 - beta1: contém a implementação do _frontend_ e _backend_ da versão 1 dos _smart contracts_ de permissionamento com modificações feitas pela Lacchain. Essas modificações adicionam informações sobre os nós no contrato, como: o tipo de nó (boot, validator, writer, observer...), geoHash, nome para o nó e o nome da instituição. Essa _branch_ contém a cópia exata do [repositório da lacchain na branch beta1](https://github.com/lacchain/permissioning-smart-contracts/tree/beta1) criada especificamente para a RBB. Os testes automatizados e os _scripts_ de migração **não** acompanharam as mudanças feitas pela lacchain.
