@@ -72,18 +72,18 @@ contract("NodeRules (Permissioning)", async accounts => {
     assert.ok(tx.receipt.status);
   });
 
-  it('Should allow addNodeDuringDeploy work only once', async () => {
+  it('Should allow addNodeDuringDeploy tests', async () => {
     await nodeRulesContract.addNodeDuringDeploy(node1High, node1Low, node1Type, node1GeoHash, node1Name, node1Organization, {from: accounts[0]});
     let permitted = await nodeRulesContract.enodePermitted(node1High, node1Low);
-    assert.ok(permitted, 'expected node 1 added to be in list');
+    assert.ok(permitted, 'Expected node 1 added to be in list');
 
     await nodeRulesContract.addNodeDuringDeploy(node2High, node2Low, node2Type, node2GeoHash, node2Name, node2Organization, {from: accounts[0]});
     permitted = await nodeRulesContract.enodePermitted(node2High, node2Low);
-    assert.ok(permitted, 'expected node 2 added to be in list');
+    assert.ok(permitted, 'Expected node 2 added to be in list');
 
     try {
       await nodeRulesContract.addNodeDuringDeploy(node3High, node3Low, node3Type, node3GeoHash, node3Name, node3Organization, {from: accounts[1]});
-      expect.fail(null, null, "Modifier was not enforced");
+      expect.fail(null, null, "OnlyOwner modifier was not enforced.");
     } catch(err) {
       expect(err.reason).to.contain('Sender not authorized');
     }
@@ -92,7 +92,7 @@ contract("NodeRules (Permissioning)", async accounts => {
 
     try {
       await nodeRulesContract.addNodeDuringDeploy(node3High, node3Low, node3Type, node3GeoHash, node3Name, node3Organization, {from: accounts[0]});
-      expect.fail(null, null, "Address is still an owner!");
+      expect.fail(null, null, "Finish deploy step failed! Address is still an owner.");
     } catch (err) {
       expect(err.reason).to.contain('Only an owner can call this function.');
     }
