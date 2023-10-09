@@ -39,7 +39,7 @@ const node3Organization = "organization3";
 
 const newAdmin = "f17f52151EbEF6C7334FAD080c5704D77216b732";
 
-contract("NodeRules (Permissioning)", (accounts) => {
+contract("NodeRules (Permissioning)", async accounts => {
   let nodeIngressContract;
   let nodeRulesContract;
   let adminContract;
@@ -52,6 +52,8 @@ contract("NodeRules (Permissioning)", (accounts) => {
 
     nodeRulesContract = await NodeRulesContract.new(nodeIngressContract.address);
     await nodeIngressContract.setContractAddress(RULES_NAME, nodeRulesContract.address);
+
+
   });
 
   it('should NOT permit node when list is empty', async () => {
@@ -68,6 +70,33 @@ contract("NodeRules (Permissioning)", (accounts) => {
 
     let tx = await nodeRulesContract.removeEnode(node1High, node1Low);
     assert.ok(tx.receipt.status);
+  });
+
+  it('Should allow addNodeDuringDeploy tests', async () => {
+    await nodeRulesContract.addNodeDuringDeploy(node1High, node1Low, node1Type, node1GeoHash, node1Name, node1Organization, {from: accounts[0]});
+    let permitted = await nodeRulesContract.enodePermitted(node1High, node1Low);
+    assert.ok(permitted, 'Expected node 1 added to be in list');
+
+    await nodeRulesContract.addNodeDuringDeploy(node2High, node2Low, node2Type, node2GeoHash, node2Name, node2Organization, {from: accounts[0]});
+    permitted = await nodeRulesContract.enodePermitted(node2High, node2Low);
+    assert.ok(permitted, 'Expected node 2 added to be in list');
+
+    try {
+      await nodeRulesContract.addNodeDuringDeploy(node3High, node3Low, node3Type, node3GeoHash, node3Name, node3Organization, {from: accounts[1]});
+      expect.fail(null, null, "OnlyOwner modifier was not enforced.");
+    } catch(err) {
+      expect(err.reason).to.contain('Sender not authorized');
+    }
+
+    await nodeRulesContract.finishDeploy();
+
+    try {
+      await nodeRulesContract.addNodeDuringDeploy(node3High, node3Low, node3Type, node3GeoHash, node3Name, node3Organization, {from: accounts[0]});
+      expect.fail(null, null, "Finish deploy step failed! Address is still an owner.");
+    } catch (err) {
+      expect(err.reason).to.contain('Only an owner can call this function.');
+    }
+
   });
 
   it('should add multiple nodes to list', async () => {
