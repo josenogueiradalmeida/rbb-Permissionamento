@@ -18,7 +18,7 @@
     "web3-utils": "^1.5.3"
   },
   "devDependencies": {
-    "truffle": "5.11.1"
+    "truffle": "5.3.3"
   },
   "repository": {
     "type": "git",

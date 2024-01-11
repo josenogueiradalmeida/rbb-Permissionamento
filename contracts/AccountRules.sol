@@ -50,6 +50,9 @@ contract AccountRules is AccountRulesProxy, AccountRulesList {
         return true;
     }
 
+    /* uma função que some dois números */  
+     
+
     function exitReadOnly() public onlyAdmin returns (bool) {
         require(readOnlyMode == true, "Not in read only mode");
         readOnlyMode = false;
