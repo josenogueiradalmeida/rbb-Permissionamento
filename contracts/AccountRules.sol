@@ -4,7 +4,7 @@ import "./AccountRulesProxy.sol";
 import "./AccountRulesList.sol";
 import "./AccountIngress.sol";
 import "./Admin.sol";
-
+import "./ContractRules.sol";
 
 contract AccountRules is AccountRulesProxy, AccountRulesList {
 
@@ -15,6 +15,7 @@ contract AccountRules is AccountRulesProxy, AccountRulesList {
     uint private version = 1000000;
 
     AccountIngress private ingressContract;
+    ContractRules private contractRules;
 
     modifier onlyOnEditMode() {
         require(!readOnlyMode, "In read only mode: rules cannot be modified");
@@ -32,6 +33,7 @@ contract AccountRules is AccountRulesProxy, AccountRulesList {
     constructor (AccountIngress _ingressContract) public {
         ingressContract = _ingressContract;
         add(msg.sender);
+        contractRules = ContractRules(this);
     }
 
     // VERSION
@@ -58,14 +60,15 @@ contract AccountRules is AccountRulesProxy, AccountRulesList {
 
     function transactionAllowed(
         address sender,
-        address, // target
+        address target, // target
         uint256, // value
         uint256, // gasPrice
         uint256, // gasLimit
         bytes memory // payload
     ) public view returns (bool) {
         if (
-            accountPermitted (sender)
+            accountPermitted (sender) //permissionado
+            && targetPermitted(sender, target) //non-blocked target
         ) {
             return true;
         } else {
@@ -77,6 +80,24 @@ contract AccountRules is AccountRulesProxy, AccountRulesList {
         address _account
     ) public view returns (bool) {
         return exists(_account);
+    }
+
+    function targetPermitted(
+        address _sender,
+        address _target
+    ) public view returns (bool) {
+
+       if ( contractRules.isContractAdmin(_target, _sender) ) {
+           return true;
+       } 
+       else {
+        if ( contractRules.isContractBlocked(_target) ) {
+            return false;
+        } 
+        else {
+            return true;
+        }   
+       }
     }
 
     function addAccount(

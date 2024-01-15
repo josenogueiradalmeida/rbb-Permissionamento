@@ -771,6 +771,11 @@
     find-up "^4.1.0"
     fs-extra "^8.1.0"
 
+"@openzeppelin/contracts@^5.0.1":
+  version "5.0.1"
+  resolved "http://nexus.bndes.net:8180/nexus/repository/npmjs-registry/@openzeppelin/contracts/-/contracts-5.0.1.tgz#93da90fc209a0a4ff09c1deb037fbb35e4020890"
+  integrity sha512-yQJaT5HDp9hYOOp4jTYxMsR02gdFZFXhewX5HW9Jo4fsqSVqqyIO/xTHdWDaKX5a3pv1txmf076Lziz+sO7L1w==
+
 "@openzeppelin/test-helpers@^0.5.16":
   version "0.5.16"
   resolved "http://nexus.bndes.net:8180/nexus/repository/npmjs-registry/@openzeppelin/test-helpers/-/test-helpers-0.5.16.tgz#2c9054f85069dfbfb5e8cef3ed781e8caf241fb3"
