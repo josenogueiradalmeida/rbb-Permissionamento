@@ -30,10 +30,11 @@ contract AccountRules is AccountRulesProxy, AccountRulesList {
         _;
     }
 
-    constructor (AccountIngress _ingressContract) public {
+    constructor (AccountIngress _ingressContract, ContractRules _contractRules) public {
         ingressContract = _ingressContract;
         add(msg.sender);
-        contractRules = ContractRules(this);
+        contractRules = _contractRules;
+        contractRules.setAccountRules(this);
     }
 
     // VERSION

@@ -4,6 +4,7 @@ const AllowlistUtils = require('../scripts/allowlist_utils');
 const Rules = artifacts.require("./AccountRules.sol");
 const AccountIngress = artifacts.require("./AccountIngress.sol");
 const Admin = artifacts.require("./Admin.sol");
+const ContractRules = artifacts.require("./ContractRules.sol");
 
 const adminContractName = Web3Utils.utf8ToHex("administration");
 const rulesContractName = Web3Utils.utf8ToHex("rules");
@@ -19,6 +20,10 @@ module.exports = async(deployer, network) => {
         accountIngress = AccountIngress.address;
 
     }
+    await deployer.deploy(ContractRules);
+    console.log("   > Deployed ContractRules contract to address = " + ContractRules.address);
+    const contractRules = ContractRules.address;
+
     // If supplied an address, make sure there's something there
     const accountIngressInstance = await AccountIngress.at(accountIngress);
     try {
@@ -33,8 +38,8 @@ module.exports = async(deployer, network) => {
     await accountIngressInstance.setContractAddress(adminContractName, admin.address);
     console.log("   > Updated AccountIngress with Admin address = " + admin.address);
 
-    await deployer.deploy(Rules, accountIngress);
-    console.log("   > Rules deployed with AccountIngress.address = " + accountIngress);
+    await deployer.deploy(Rules, accountIngress, contractRules);
+    console.log("   > Rules deployed with AccountIngress.address and ContractRules.address = " + accountIngress + " " + contractRules);
     let accountRulesContract = await Rules.deployed();
 
     if (AllowlistUtils.isInitialAllowlistedAccountsAvailable()) {
