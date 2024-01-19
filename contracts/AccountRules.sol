@@ -88,7 +88,8 @@ contract AccountRules is AccountRulesProxy, AccountRulesList {
         address _target
     ) public view returns (bool) {
 
-       if ( contractRules.isContractAdmin(_target, _sender) ) {
+       if ( contractRules.isContractAdmin(_target, _sender) 
+            || Admin(ingressContract.getContractAddress(ingressContract.ADMIN_CONTRACT())).isAuthorized(_sender) ) {
            return true;
        } 
        else {
