@@ -1,8 +1,9 @@
 pragma solidity 0.5.9;
 
 import "./AccountRules.sol";
+import "./ContractRulesAdminProxy.sol";
 
-contract ContractRules{
+contract ContractRules is ContractRulesAdminProxy {
 
     mapping(address => bool) private contractBlocked;
     mapping(address => address[]) private contractAdmins;    
@@ -33,19 +34,18 @@ contract ContractRules{
     }
 
     function isContractAdmin(address _smartContract, address _admin) public view returns (bool) {
-        address[] memory adminList = contractAdmins[_smartContract];
-        for (uint256 i = 0; i < adminList.length; i++) {
-            if (adminList[i] == _admin) {
+        for (uint256 i = 0; i < contractAdmins[_smartContract].length; i++) {
+            if (contractAdmins[_smartContract][i] == _admin) {
                 return true;
             }
         }  
     }
 
-    function isContractBlocked(address _contract) public view returns (bool) {
+    function isBlocked (address _contract) public view returns (bool) {
         return contractBlocked[_contract];
     }   
 
-    function addBlock(address _contractToBlock) public isReady {
+    function blockContract(address _contractToBlock) public isReady {
         require(accountRules.accountPermitted(msg.sender) 
                 || isContractAdmin(_contractToBlock, msg.sender),
                 "Only account admin or contract admin can block a contract");
@@ -53,7 +53,7 @@ contract ContractRules{
         emit ContractBlocked(_contractToBlock);
     }    
 
-    function removeBlock(address _contractToUnblock) public isReady {
+    function unblockContract(address _contractToUnblock) public isReady {
         require(accountRules.accountPermitted(msg.sender) 
                 || isContractAdmin(_contractToUnblock, msg.sender),
                 "Only account admin or contract admin can unblock a contract");        
@@ -61,23 +61,23 @@ contract ContractRules{
         emit ContractUnblocked(_contractToUnblock);
     }
  
-    function addAdmin(address _newAdmin, address _contractToAdmin) public isReady {
+    function addContractAdmin(address _contractToAdmin, address _newAdmin) public isReady {
         require(accountRules.accountPermitted(msg.sender) 
                 || isContractAdmin(_contractToAdmin, msg.sender),
                 "Only account admin or contract admin can add admin to a contract");        
+        require(isBlocked(_contractToAdmin), "Contract is not blocked");        
         contractAdmins[_contractToAdmin].push(_newAdmin);
         emit ContractAdminAdded(_contractToAdmin, _newAdmin);
     }
 
-    function removeAdmin(address _oldAdmin, address _contractToAdmin) public isReady {
+    function removeContractAdmin(address _contractToAdmin, address _oldAdmin) public isReady {
         require(accountRules.accountPermitted(msg.sender) 
                 || isContractAdmin(_contractToAdmin, msg.sender),
                 "Only account admin or contract admin can remove admin from a contract");                         
-        
-        address[] memory adminList = contractAdmins[_contractToAdmin];
-        for (uint256 i = 0; i < adminList.length; i++) {
-            if (adminList[i] == _oldAdmin) {
-                adminList[i] = address(0x0); 
+    
+        for (uint256 i = 0; i < contractAdmins[_contractToAdmin].length; i++) {
+            if (contractAdmins[_contractToAdmin][i] == _oldAdmin) {
+                contractAdmins[_contractToAdmin][i] = address(0x0); 
             }
         }  
         emit ContractAdminRemoved(_contractToAdmin, _oldAdmin);

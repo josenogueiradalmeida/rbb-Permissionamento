@@ -93,7 +93,7 @@ contract AccountRules is AccountRulesProxy, AccountRulesList {
            return true;
        } 
        else {
-        if ( contractRules.isContractBlocked(_target) ) {
+        if ( contractRules.isBlocked(_target) ) {
             return false;
         } 
         else {
