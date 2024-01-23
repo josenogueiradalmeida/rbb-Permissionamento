@@ -26,8 +26,6 @@ contract('Contract Rules', (accounts) => {
     await accountRulesContract.addAccount(contractAdmin);
     await accountRulesContract.addAccount(permissionedAccount);
 
-    // Set the contractAdmin as admin of target
-    await contractRules.addContractAdmin(target, contractAdmin, { from: admin });
   });
 
   it('should allow transaction when contractAdmin is permitted and target is permitted', async () => {
@@ -46,7 +44,8 @@ contract('Contract Rules', (accounts) => {
   it('should allow transaction when target contract is not permitted when contract`s admin ', async () => {
     // Block target
     await contractRules.blockContract(target, { from: admin });
-
+    // Set the contractAdmin as admin of target
+    await contractRules.addContractAdmin(target, contractAdmin, { from: admin });
     const result = await accountRulesContract.transactionAllowed(contractAdmin, target, 0, 0, 0, '0x');
     assert.equal(result, true);
   });  
